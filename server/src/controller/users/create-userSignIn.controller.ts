@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { UserModel } from "../../models";
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import { UserModel } from "../../models";
 
 export const signInController = async (req: Request, res: Response) => {
   try {
@@ -9,8 +9,7 @@ export const signInController = async (req: Request, res: Response) => {
 
     const user = await UserModel.findOne({ email });
     if (!user) {
-      res.status(400).json({ message: "user baihgui" });
-      return;
+      return res.status(400).json({ message: "user oldsongui" });
     }
 
     const ok = bcrypt.compareSync(password, user.password);
@@ -18,17 +17,26 @@ export const signInController = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "password buruu" });
     }
 
-    const token = jwt.sign(
-      { _id: user._id },
+    const accessToken = jwt.sign(
+      { userId: user._id },
       process.env.JWT_SECRET as string,
-      { expiresIn: "1h" },
+      { expiresIn: "15m" },
     );
 
-    res.json({
-      message: "amjilttai newterlee",
-      token,
+    const refreshToken = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_REFRESH_SECRET as string,
+      { expiresIn: "7d" },
+    );
+    user.refreshToken = refreshToken;
+    await user.save();
+    return res.status(200).json({
+      message: "Success",
+      accessToken,
+      refreshToken,
+      user: { id: user._id, email: user.email },
     });
-  } catch (err) {
-    res.status(500).json({ message: "aldaa garlaa" });
+  } catch (error) {
+    res.status(500).json({ message: "Aldaa garlaa" });
   }
 };

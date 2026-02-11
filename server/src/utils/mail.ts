@@ -2,7 +2,7 @@
 import { configDotenv } from "dotenv";
 import { Resend } from "resend";
 configDotenv();
-const { AUTH_EMAIL, AUTH_PASS } = process.env;
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const verifyUserEmail = async (receiver: string, verifyLink: string) => {
@@ -20,7 +20,6 @@ export const verifyUserEmail = async (receiver: string, verifyLink: string) => {
 >
   <a href="${verifyLink}" style="font-size: 18px; color: red">Verify user</a>
 </div>
-
 `,
   });
 };

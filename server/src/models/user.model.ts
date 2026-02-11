@@ -5,7 +5,6 @@ export enum UserRoleEnum {
   ADMIN = "ADMIN",
 }
 
-
 export type User = {
   email: string;
   password: string;
@@ -15,6 +14,7 @@ export type User = {
   orderedFoods: Types.ObjectId[];
   ttl: Date;
   isVerified: boolean;
+  refreshToken: string;
 };
 
 const UserSchema = new Schema<User>(
@@ -64,10 +64,13 @@ const UserSchema = new Schema<User>(
       type: Boolean,
       default: false,
     },
+    refreshToken: {
+      type: String,
+    },
   },
   {
-    timestamps: true, 
-  }
+    timestamps: true,
+  },
 );
 export const UserModel: Model<User> =
   models.User || model<User>("User", UserSchema);
