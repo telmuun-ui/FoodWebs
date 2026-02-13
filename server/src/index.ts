@@ -31,7 +31,9 @@ app.use("/patch-cat", CategoryRouter);
 app.use("/del-cat", CategoryRouter);
 //Order
 app.use("/create-order", orderRouter)
-
+app.use("/update-order", orderRouter)
+app.use("/get-order", orderRouter)
+app.use("/get-userid", orderRouter)
 app.listen(port, async () => {
   await connectToMongoDB();
   console.log("http://localhost:8000");
