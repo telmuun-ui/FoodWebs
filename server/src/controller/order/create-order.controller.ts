@@ -14,6 +14,7 @@ export const createOrder = async (req: any, res: Response) => {
       foodOrderItems,
       totalPrice: 0,
       status: "PENDING",
+     
     });
 
     return res.status(200).json({ message: "zahialga amjilttai", data: order });

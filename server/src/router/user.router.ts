@@ -6,11 +6,15 @@ import { confirmResetPass } from "../controller/users/create-changePass.controll
 import { verifyPass } from "../controller/users";
 import { refreshUser } from "../controller/users";
 import { authentication } from "../middleware/authencation";
+import { verifyUserController } from "../controller/users/verify-email.controller";
 export const authRouter = Router();
 
-authRouter.post("/sign-up",authentication, signUpController);
-authRouter.post("/sign-in",authentication, signInController);
-authRouter.post("/resetPass",authentication, resetPass);
-authRouter.post("/changePass",authentication, confirmResetPass);
-authRouter.get("/verifyPass",authentication, verifyPass);
-authRouter.get("/refresh", refreshUser );
+authRouter.post("/sign-up", signUpController);
+authRouter.post("/sign-in", signInController);
+authRouter.post("/resetPass", resetPass);
+authRouter.post("/changePass", authentication, confirmResetPass);
+authRouter.get("/verifyPass", authentication, verifyPass);
+authRouter.get("/refresh", authentication, refreshUser);
+
+
+authRouter.get("/verify-user", verifyUserController);
